@@ -12,7 +12,7 @@ fn main() {
                 println!("fizz buzz")
             } else if number%3 == 0 {
                 println!("fizz")
-            } else if number%3 == 0 {
+            } else if number%5 == 0 {
                 println!("buzz")
             }
     
