@@ -13,7 +13,7 @@ async function player01(game, x, y) {
     })
     .signers([])
     .rpc();
-  console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
+  // console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
 
   // Confirm transaction
   await pg.connection.confirmTransaction(txHash);
@@ -41,7 +41,7 @@ async function player02(game, x, y) {
     })
     .signers(playertwo)
     .rpc();
-  console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
+  // console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
 
   // Confirm transaction
   await pg.connection.confirmTransaction(txHash);
@@ -71,25 +71,40 @@ const txHash = await pg.program.methods
   })
   .signers([game])
   .rpc();
-console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
+// console.log(`Use 'solana confirm -v ${txHash}' to see the logs`);
 
 // Confirm transaction
 await pg.connection.confirmTransaction(txHash);
 
-// await player02(game, "3", "3");
-// await player01(game, "2", "3");
-// await player02(game, "2", "2");
-// await player01(game, "1", "2");
-// await player02(game, "1", "1");
+// Fetch the created account
+const created_game_account = await pg.program.account.game.fetch(
+  game.publicKey
+);
 
+console.log("Player 1:", created_game_account.players[0].toString());
+console.log("Player 2:", created_game_account.players[1].toString());
 
+///////////////////
+// Player 2 Wins //
+///////////////////
+await player02(game, "3", "3");
+await player01(game, "2", "3");
+await player02(game, "2", "2");
+await player01(game, "1", "2");
+await player02(game, "1", "1");
+
+///////////////////
+// Player 1 Wins //
+///////////////////
 // await player01(game, "3", "3");
 // await player02(game, "2", "3");
 // await player01(game, "2", "2");
 // await player02(game, "1", "2");
 // await player01(game, "1", "1");
 
-
+///////////////////////////////////////////////////////////
+// Player 1 Wins, but Player 2 tries to score after that //
+///////////////////////////////////////////////////////////
 // await player01(game, "3", "3");
 // await player02(game, "2", "3");
 // await player01(game, "2", "2");
@@ -97,18 +112,30 @@ await pg.connection.confirmTransaction(txHash);
 // await player01(game, "1", "1");
 // await player02(game, "3", "1");
 
+
+///////////////////////////////////////////////////
+// Player 1 and Player 2 tries to make same move //
+///////////////////////////////////////////////////
 // await player01(game, "3", "3");
 // await player02(game, "3", "3");
 
+
+///////////////////////////////////////////////
+// Player 1 tries to make 2 consecutive move //
+///////////////////////////////////////////////
 // await player01(game, "3", "3");
 // await player01(game, "1", "3");
 
-await player02(game, "3", "3")
-await player01(game, "2", "3")
-await player02(game, "2", "2")
-await player01(game, "1", "2")
-await player02(game, "1", "3")
-await player01(game, "3", "1")
-await player02(game, "2", "1")
-await player01(game, "1", "1")
-await player02(game, "3", "2")
+
+//////////////////////////
+// Make ends up in draw //
+//////////////////////////
+// await player02(game, "3", "3")
+// await player01(game, "2", "3")
+// await player02(game, "2", "2")
+// await player01(game, "1", "2")
+// await player02(game, "1", "3")
+// await player01(game, "3", "1")
+// await player02(game, "2", "1")
+// await player01(game, "1", "1")
+// await player02(game, "3", "2")
