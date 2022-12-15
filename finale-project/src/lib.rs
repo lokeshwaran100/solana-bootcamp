@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 use std::vec;
 use std::string::String;
+use std::cmp::max;
+use std::cmp::min;
 
 //use self::BoardPoint::*;
 
@@ -157,7 +159,7 @@ impl Game {
             //     actual: *elem as u8,
             // });
             if *index < 5 {
-                // msg!("moves[{:?}]:{:?}, element:{:?}", i, moves[i as usize] as u8, *elem as u8);
+                msg!("moves[{:?}]:{:?}, element:{:?}", i, moves[i as usize] as u8, *elem as u8);
     			if moves[i as usize] as u8 == *elem as u8 {
     				present = true;
     				break;
@@ -187,11 +189,17 @@ impl Game {
 		let playerMoves: &[BoardPoint; 5];
 		let playerMovePos: &u8;
 		if indx == 0 {
+            if self.playerOneMovePos + 1 - self.playerTwoMovePos > 1 {
+    			return Err(SErrors::NotPlayersTurn.into());
+    		}
 			self.playerOneMoves[self.playerOneMovePos as usize] = board_point;
 			self.playerOneMovePos += 1;
 			playerMoves = &self.playerOneMoves;
 			playerMovePos = &self.playerOneMovePos;
 		} else {
+            if self.playerTwoMovePos + 1 - self.playerOneMovePos > 1 {
+    			return Err(SErrors::NotPlayersTurn.into());
+    		}
 			self.playerTwoMoves[self.playerTwoMovePos as usize] = board_point;
 			self.playerTwoMovePos += 1;
 			playerMoves = &self.playerTwoMoves;
@@ -227,4 +235,5 @@ pub enum SErrors {
     WrongBoardPoint,
     WrongMove,
     GameOver,
+    NotPlayersTurn,
 }

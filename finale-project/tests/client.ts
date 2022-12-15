@@ -90,12 +90,25 @@ await pg.connection.confirmTransaction(txHash);
 // await player01(game, "1", "1");
 
 
-// await player02(game, "3", "3")
-// await player01(game, "2", "3")
-// await player02(game, "2", "2")
-// await player01(game, "1", "2")
-// await player02(game, "1", "3")
-// await player01(game, "3", "1")
-// await player02(game, "2", "1")
-// await player01(game, "1", "1")
-// await player02(game, "3", "2")
+// await player01(game, "3", "3");
+// await player02(game, "2", "3");
+// await player01(game, "2", "2");
+// await player02(game, "1", "2");
+// await player01(game, "1", "1");
+// await player02(game, "3", "1");
+
+// await player01(game, "3", "3");
+// await player02(game, "3", "3");
+
+// await player01(game, "3", "3");
+// await player01(game, "1", "3");
+
+await player02(game, "3", "3")
+await player01(game, "2", "3")
+await player02(game, "2", "2")
+await player01(game, "1", "2")
+await player02(game, "1", "3")
+await player01(game, "3", "1")
+await player02(game, "2", "1")
+await player01(game, "1", "1")
+await player02(game, "3", "2")
