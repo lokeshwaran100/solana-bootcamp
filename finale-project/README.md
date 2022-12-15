@@ -1,4 +1,4 @@
-# tic-tac-toe
+# Tic Tac Toe
 Finale project for the solana bootcamp
 
 This project uses Anchor framework to implement the logic of the Tic Tac Toe game on Solana blockchain (devnet) and React JS to implement the frontend logic of the game
