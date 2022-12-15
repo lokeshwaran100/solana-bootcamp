@@ -28,6 +28,8 @@ mod TicTacToe {
     }
 }
 
+
+
 #[derive(Accounts)]
 pub struct SelectPoint<'info> {
     #[account(mut)]
@@ -103,6 +105,14 @@ impl WinningCombo for BoardPoint {
 // Account
 ////////////////////////////////////////////////////////////////
 
+
+#[event]
+pub struct MyEvent {
+    pub actual: u8,
+    pub expected: u8,
+}
+
+
 #[account]
 pub struct Game {
     players: [Pubkey; 2],
@@ -115,7 +125,7 @@ pub struct Game {
 
 impl Game {
     // Based on account varfiable sizes
-    pub const MAXIMUM_SIZE: usize = (32 * 2) + (32 * 2) + 3 * 2;
+    pub const MAXIMUM_SIZE: usize = (32 * 2) + (32 * 2) + (32 * 2) + 2 + 2 * 5;
 
     // Player that pays for account set up calls this with both pubkeys
     fn new(&mut self, players: [Pubkey; 2]) -> Result<()> {
@@ -142,11 +152,17 @@ impl Game {
 	fn IsElementPresent(&self, moves: &[BoardPoint], index: &u8, elem: &BoardPoint) -> bool {
 		let mut present = false;
 		for i in 0..=*index {
-            msg!("moves[{:?}]:{:?}, element:{:?}", i, moves[i as usize] as u8, *elem as u8);
-			if moves[i as usize] as u8 == *elem as u8 {
-				present = true;
-				break;
-			}
+            // emit!(MyEvent {
+            //     expected: moves[i as usize] as u8,
+            //     actual: *elem as u8,
+            // });
+            if *index < 5 {
+                // msg!("moves[{:?}]:{:?}, element:{:?}", i, moves[i as usize] as u8, *elem as u8);
+    			if moves[i as usize] as u8 == *elem as u8 {
+    				present = true;
+    				break;
+    			}
+            }
 		}
 		present
 	}
